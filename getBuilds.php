@@ -25,7 +25,7 @@ if (!is_array($result)) {
 		$status = $job['status'];
 		if (!empty($job['blame'])) {
 			$culprint = $job['blame'];
-			array_push($job['status'], "$culprit blaimed");
+			array_push($job['status'], "$culprit blamed");
 			$blame = "<span class='blame'>{$job['blame']}</span>" ;
 		}
 		if (!empty($job['claim'])) {
