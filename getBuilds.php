@@ -21,10 +21,19 @@ if (!is_array($result)) {
 	$html = '';
 	foreach ($jobs as $job) {
 		$blame = null;
-		if ($job['status'][0] == 'failed') {
-			$blame = "<br /><span class='blame'>{$job['blame']}</span>" ;
+		$claim = null;
+		$status = $job['status'];
+		if (!empty($job['blame'])) {
+			$culprint = $job['blame'];
+			array_push($job['status'], "$culprit blaimed");
+			$blame = "<span class='blame'>{$job['blame']}</span>" ;
 		}
-		$html .="<li class = 'job " . implode(" ",$job['status'] ) . "'>{$job['name']}{$blame}</li>";
+		if (!empty($job['claim'])) {
+			$culprit = $job['claim'];
+			array_push($job['status'], "$culprit claimed");
+			$claim = "<span class='claim' >{$job['claim']}</span>" ;
+		}
+		$html .="<li class = 'job " . implode(" ",$job['status'] ) . "'>{$job['name']}${claim}{$blame}</li>";
 	}
 
 	$result = array('status'  => 'ok',

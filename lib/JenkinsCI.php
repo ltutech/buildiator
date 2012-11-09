@@ -33,6 +33,7 @@ class JenkinsCI implements ContinuousIntegrationServerInterface{
 			$newjob = array('name'=>$job->name, 'status'=>$this->translateColorToStatus($job->color));
 			if ($newjob['status'][0] != 'successful') {
 				$newjob['blame'] = $this->getBlameFor($job->name);
+				$newjob['claim'] = $this->getClaimant($job->name);
 			}
 			$return[] = $newjob;
 		}
@@ -49,6 +50,18 @@ class JenkinsCI implements ContinuousIntegrationServerInterface{
 		}
 		return $culprits->culprits[0]->fullName;
 
+	}
+
+	private function getClaimant($jobName) {
+		$job = rawurlencode($jobName);
+		$json = file_get_contents($this->url . "/job/{$job}/lastBuild/api/json?tree=actions[claimed,claimedBy,reason]");
+		$actions = json_decode($json);
+		foreach ($actions->actions as $action) {
+			if (!empty($action) and !defined($action->claimed) and $action->claimed) {
+				return $action->claimedBy;
+			}
+		}
+		return null;
 	}
 
 	private function translateColorToStatus($color) {

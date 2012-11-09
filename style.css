@@ -53,7 +53,13 @@ ul {
 .blame {
 	font-weight: normal;
 	font-size: .8em;
+	display: block;
+}
 
+.claim {
+    font-weight: normal;
+    font-size: .8em;
+    display: none;
 }
 
 .successful {
