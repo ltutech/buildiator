@@ -31,7 +31,7 @@ class JenkinsCI implements ContinuousIntegrationServerInterface{
 		$jobs = json_decode($json);
 		foreach ($jobs->jobs as $job) {
 			$newjob = array('name'=>$job->name, 'status'=>$this->translateColorToStatus($job->color));
-			if ($newjob['status'][0] == 'failed') {
+			if ($newjob['status'][0] != 'successful') {
 				$newjob['blame'] = $this->getBlameFor($job->name);
 			}
 			$return[] = $newjob;
