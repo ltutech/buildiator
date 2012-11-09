@@ -1,0 +1,27 @@
+.job {
+
+  font-size: 1.5em;
+  overflow: hidden;
+  width: 22%;
+  margin: 0.3%;
+}
+
+ul {
+	display: block;
+  text-align: center;
+  margin: auto;
+  padding: 0px;
+  list-style-type: none;
+}
+
+.bvidal {
+  background-image: url(chauve.jpg);
+ }
+
+.unstable {
+  border: solid 1px #E3E310;
+  background: #CCCC1F;
+  background: -webkit-gradient(linear, left top, left bottom, from(#E3E310), to(#CCCC1F));
+  background: -moz-linear-gradient(top, #E3E310, #CCCC1F);
+  filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ed1c24', endColorstr='#aa1317');
+}
