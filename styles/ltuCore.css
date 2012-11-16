@@ -1,11 +1,11 @@
 .bvidal {
-  background-image: url(chauve.jpg);
+  background-image: url('/product/chauve.jpg');
 }
 
 
 .job {
   width: 47%;
-  height: 44px;
+  height: 42px;
   text-shadow: 2px 2px #000000;
 }
 

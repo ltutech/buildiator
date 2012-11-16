@@ -1,0 +1,22 @@
+
+.job {
+  width: 22%;
+  height: 60px;
+}
+
+.fvisconte {
+  background-image: url('/images/fvisconte.png');
+
+}
+
+.bvidal {
+  background-image: url('/images/chauve.jpg');
+}
+
+.yallusse {
+  background-image: url('/images/sweden.jpg');
+}
+
+.mcupcic {
+  background-image: url('/images/explosion.jpg');
+}

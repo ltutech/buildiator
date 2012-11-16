@@ -3,11 +3,12 @@
   font-size: 1.5em;
   overflow: hidden;
   width: 22%;
-  margin: 0.3%;
+  height: 55px;
+  margin: 0.6%;
 }
 
 ul {
-	display: block;
+  display: block;
   text-align: center;
   margin: auto;
   padding: 0px;
@@ -15,7 +16,7 @@ ul {
 }
 
 .bvidal {
-  background-image: url(chauve.jpg);
+  background-image: url('/images/chauve.jpg');
  }
 
 .unstable {
