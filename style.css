@@ -1,4 +1,4 @@
-/* 
+/*
     Document   : style
     Created on : 07-Jan-2011, 15:59:41
     Author     : jake
@@ -27,9 +27,9 @@ ul {
 	list-style-type: none;
 }
 
-.job {
+.lastSuccedBuild {
 	color: white;
-	font-size: 1.75em;
+	font-size: 3.0em;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
@@ -37,8 +37,9 @@ ul {
 	float: left;
 	margin: 0.3%;
 	width: 20%;
-	height: 75px;
+	height: 50px;
 	padding: 10px;
+  text-align:left;
 
 	border: 1px solid black;
 	-webkit-border-radius: .5em;
@@ -48,6 +49,77 @@ ul {
 	-moz-box-shadow: 0 3px 6px rgba(0,0,0,.4);
 	box-shadow: 0 3px 6px rgba(0,0,0,.4);
 }
+
+.jobsBorderHeader {
+  color: white;
+	font-size: 3.0em;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	float: left;
+	margin: 0.3%;
+	width: 90%;
+	height: 50px;
+	padding: 2px;
+  text-align: center;
+
+	border: 1px solid black;
+	-webkit-border-radius: .5em;
+	-moz-border-radius: .5em;
+	border-radius: .5em;
+	-webkit-box-shadow: 0 3px 6px rgba(0,0,0,.4);
+	-moz-box-shadow: 0 3px 6px rgba(0,0,0,.4);
+	box-shadow: 0 3px 6px rgba(0,0,0,.4);
+
+}
+
+.jobBroken {
+	color: white;
+	font-size: 3.0em;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	float: left;
+	margin: 0.3%;
+	width: 70%;
+	height: 50px;
+	padding: 10px;
+  text-align:left;
+
+	border: 1px solid black;
+	-webkit-border-radius: .5em;
+	-moz-border-radius: .5em;
+	border-radius: .5em;
+	-webkit-box-shadow: 0 3px 6px rgba(0,0,0,.4);
+	-moz-box-shadow: 0 3px 6px rgba(0,0,0,.4);
+	box-shadow: 0 3px 6px rgba(0,0,0,.4);
+}
+
+.jobSuccess {
+	color: white;
+	font-size: 1.5em;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	float: left;
+	margin: 0.3%;
+	width: 30%;
+	height: 25px;
+	padding: 10px;
+  text-align:left;
+
+	border: 1px solid black;
+	-webkit-border-radius: .5em;
+	-moz-border-radius: .5em;
+	border-radius: .5em;
+	-webkit-box-shadow: 0 3px 6px rgba(0,0,0,.4);
+	-moz-box-shadow: 0 3px 6px rgba(0,0,0,.4);
+	box-shadow: 0 3px 6px rgba(0,0,0,.4);
+}
+
 
 .blame {
 	font-weight: normal;

@@ -1,7 +1,12 @@
+
 <?php
 require_once ('lib/MockCI.php');
 require_once ('lib/JenkinsCI.php');
 require_once ('lib/Exceptions.php');
+
+function isort($a,$b) {
+    return ($a['timeElapse']) > ($b['timeElapse']);
+}
 
 $result = '';
 if (isset($_GET['view'])) {
@@ -19,9 +24,11 @@ try {
 
 if (!is_array($result)) {
 	$html = '';
-	foreach ($jobs as $job) {
-		$blame = null;
-		$claim = null;
+  uksort($jobs, "isort");
+
+  foreach ($jobs as $job) {
+ 		$blame = null;
+ 		$claim = null;
 		$status = $job['status'];
 		if (!empty($job['blame'])) {
 			$culprit = $job['blame'];
@@ -33,7 +40,16 @@ if (!is_array($result)) {
 			array_push($job['status'], "$culprit claimed");
 			$claim = "<span class='claim' >{$job['claim']}</span>" ;
 		}
-		$html .="<li class = 'job " . implode(" ",$job['status'] ) . "'>{$job['name']}${claim}{$blame}</li>";
+		if ($job['status'][0] != 'successful') {
+				$html .="<li class = 'jobBroken " . implode(" ",$job['status'] ) . "'>{$job['name']}${claim}{$blame}</li><li class = 'lastSuccedBuild '>{$job['lastSuccessfulBuildTime']} {$job['timeElapse']}\n</li>";
+    }
+	}
+  $html .="<li class = 'jobsBorderHeader '>SuccessfullBuild</li>";
+  $html .="<p>=============================</p>";
+	foreach ($jobs as $job) {
+		if ($job['status'][0] == 'successful') {
+				$html .="<li class = 'jobSuccess " . implode(" ",$job['status'] ) . "'>{$job['name']}${claim}{$blame}</li>";
+    }
 	}
 
 	$result = array('status'  => 'ok',
