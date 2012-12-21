@@ -41,7 +41,7 @@ if (!is_array($result)) {
 			$claim = "<span class='claim' >{$job['claim']}</span>" ;
 		}
 		if ($job['status'][0] != 'successful') {
-				$html .="<li class = 'jobBroken " . implode(" ",$job['status'] ) . "'>{$job['name']}${claim}{$blame}</li><li class = 'lastSuccedBuild '>{$job['lastSuccessfulBuildTime']} {$job['timeElapse']}\n</li>";
+				$html .="<li class = 'jobBroken " . implode(" ",$job['status'] ) . "'>{$job['name']}${claim}{$blame}</li><li class = 'lastSuccedBuild '>{$job['lastSuccessfulBuildTime']}\n</li>";
     }
 	}
   $html .="<li class = 'jobsBorderHeader '>SuccessfullBuild</li>";

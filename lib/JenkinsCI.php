@@ -32,10 +32,10 @@ class JenkinsCI implements ContinuousIntegrationServerInterface{
 		foreach ($jobs->jobs as $job) {
 			$newjob = array('name'=>$job->name,
                       'status'=>$this->translateColorToStatus($job->color));
-			if ($newjob['status'][0] != 'successful') {
+      if ($newjob['status'][0] == 'failed' or $newjob['status'][0] == 'unstable') {
 				$newjob['blame'] = $this->getBlameFor($job->name);
 				$newjob['claim'] = $this->getClaimant($job->name);
-        $timeElapse = $this->getlastSuccessfulBuildTime($job->name);
+        $timeElapse = $this->getFirstUnsuccessfulBuild($job->name);
         $newjob['timeElapse'] = $timeElapse;
         $newjob['lastSuccessfulBuildTime'] = $this->humanTiming ($timeElapse);
 			}
@@ -46,7 +46,7 @@ class JenkinsCI implements ContinuousIntegrationServerInterface{
 
   public function humanTiming ($time)
   {
-    $time = time() - $time / 1000; // to get the time since that moment
+    $time = time() - $time / 1000; // to get the time in second since that moment
 
     $tokens = array (
         31536000 => 'year',
@@ -66,11 +66,11 @@ class JenkinsCI implements ContinuousIntegrationServerInterface{
   }
 
 
-	public function getlastSuccessfulBuildTime($jobName) {
+	public function getFirstUnsuccessfulBuild($jobName) {
     $job = rawurlencode($jobName);
-		$json = file_get_contents($this->url . "/job/{$job}/api/json?tree=lastSuccessfulBuild[number]");
-		$lastSuccessfulBuild = json_decode($json);
-    $number = $lastSuccessfulBuild->lastSuccessfulBuild->number + 1;
+		$json = file_get_contents($this->url . "/job/{$job}/api/json?tree=lastStableBuild[number]");
+		$lastStableBuild = json_decode($json);
+    $number = $lastStableBuild->lastStableBuild->number + 1;
     $json2 = file_get_contents($this->url . "/job/{$job}/{$number}/api/json?tree=timestamp");
     $firstUnsuccessfulBuild = json_decode($json2);
     return $firstUnsuccessfulBuild->timestamp;
@@ -93,9 +93,11 @@ class JenkinsCI implements ContinuousIntegrationServerInterface{
 		$json = file_get_contents($this->url . "/job/{$job}/lastBuild/api/json?tree=actions[claimed,claimedBy,reason]");
 		$actions = json_decode($json);
 		foreach ($actions->actions as $action) {
-			if (!empty($action) and !defined($action->claimed) and $action->claimed) {
-				return $action->claimedBy;
-			}
+       if (isset($action->claimed)) {
+           if ($action->claimed) {
+              return $action->claimedBy;
+           }
+        }
 		}
 		return null;
 	}
