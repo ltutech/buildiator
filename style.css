@@ -86,7 +86,7 @@ ul {
 	width: 70%;
 	height: 50px;
 	padding: 10px;
-  text-align:left;
+	text-align:left;
 
 	border: 1px solid black;
 	-webkit-border-radius: .5em;
@@ -148,10 +148,10 @@ ul {
 
 .unstable {
 	border: solid 1px #980c10;
-	background: #d81b21;
-	background: -webkit-gradient(linear, left top, left bottom, from(#ed1c24), to(#aa1317));
-	background: -moz-linear-gradient(top, #ed1c24, #aa1317);
-	filter:	progid:DXImageTransform.Microsoft.gradient(startColorstr='#ed1c24', endColorstr='#aa1317');
+	background: #FFFF00;
+	background: -webkit-gradient(linear, left top, left bottom, from(#FFFF00), to(#aa1317));
+	background: -moz-linear-gradient(top, #FFFF00, #aa1317);
+	filter:	progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFF00', endColorstr='#aa1317');
 }
 
 .cancelled {
