@@ -72,6 +72,12 @@ class JenkinsCI implements ContinuousIntegrationServerInterface{
 		$lastStableBuild = json_decode($json);
     $number = $lastStableBuild->lastStableBuild->number + 1;
     $json2 = file_get_contents($this->url . "/job/{$job}/{$number}/api/json?tree=timestamp");
+    // If the number doesn't refers to any existing build (It has been remove by the user)
+    // The timestanp return will be the one of the last successfull build
+    if (!$json2) {
+      $number = $lastStableBuild->lastStableBuild->number;
+      $json2 = file_get_contents($this->url . "/job/{$job}/{$number}/api/json?tree=timestamp");
+    }
     $firstUnsuccessfulBuild = json_decode($json2);
     return $firstUnsuccessfulBuild->timestamp;
 }

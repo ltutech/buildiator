@@ -26,7 +26,23 @@ if (!is_array($result)) {
 	$html = '';
   uksort($jobs, "isort");
 
+  $jobsFailed = array();
+  $jobsUnstable = array();
+  $jobsStable = array();
   foreach ($jobs as $job) {
+    $lsStatus = $job['status'][0];
+    if ($lsStatus == 'failed') {
+      $jobsFailed[] = $job;
+    }
+    if ($lsStatus == 'unstable') {
+      $jobsUnstable[] = $job;
+    }
+    if ((($lsStatus == 'successful') or ($lsStatus == 'cancelled')) or ($lsStatus == 'disabled')) {
+      $jobsStable[] = $job;
+      }
+  }
+
+  foreach ($jobsFailed as $job) {
  		$blame = null;
  		$claim = null;
 		$status = $job['status'];
@@ -40,20 +56,19 @@ if (!is_array($result)) {
 			array_push($job['status'], "$culprit claimed");
 			$claim = "<span class='claim' >{$job['claim']}</span>" ;
 		}
-		if ($job['status'][0] != 'successful') {
+		if ($job['status'][0] != 'successful' ) {
 				$html .="<li class = 'jobBroken " . implode(" ",$job['status'] ) . "'>{$job['name']}${claim}{$blame}</li><li class = 'lastSuccedBuild '>{$job['lastSuccessfulBuildTime']}\n</li>";
     }
 	}
+
   $html .="<li class = 'jobsBorderHeader '>SuccessfullBuild</li>";
   $html .="<p>=============================</p>";
-	foreach ($jobs as $job) {
-		if ($job['status'][0] == 'successful') {
-				$html .="<li class = 'jobSuccess " . implode(" ",$job['status'] ) . "'>{$job['name']}${claim}{$blame}</li>";
-    }
+
+  foreach ($jobsStable as $job) {
+		$html .="<li class = 'jobSuccess " . implode(" ",$job['status'] ) . "'>{$job['name']}${claim}{$blame}</li>";
 	}
 
-	$result = array('status'  => 'ok',
-					'content' => $html);
+	$result = array('status' => 'ok', 'content' => $html);
 }
 
 echo json_encode($result);
