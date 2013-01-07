@@ -12,19 +12,18 @@ function displayJobsProblem($jobs)
 {
   $html = '';
   foreach ($jobs as $job) {
-    $blame = null;
-    $claim = null;
-    $status = $job['status'];
-    if (!empty($job['blame'])) {
-      $culprit = $job['blame'];
-      array_push($job['status'], "$culprit blamed");
-      $blame = "<span class='blame'>{$job['blame']}</span>" ;
-    }
-    if (!empty($job['claim'])) {
-      $culprit = $job['claim'];
-      array_push($job['status'], "$culprit claimed");
-      $claim = '<img src="https://account.corp.ltutech.com/photos.php?user=' . $culprit .'" height="60"  style="float:right">';
-    }
+    $html .="<li class = 'jobBroken " . implode(" ",$job['status'] ) . "'>{$job['name']}</li><li class = 'lastSuccedBuild '>{$job['lastSuccessfulBuildTime']}\n</li>";
+  }
+  return $html;
+}
+
+function displayJobsClaim($claimJobs)
+{
+  $html = '';
+  foreach ($claimJobs as $job) {
+    $culprit = $job['claim'];
+    array_push($job['status'], "$culprit claimed");
+    $claim = '<img src="https://account.corp.ltutech.com/photos.php?user=' . $culprit .'" height="60"  style="float:right">';
     $html .="<li class = 'jobBroken " . implode(" ",$job['status'] ) . "'>{$job['name']}</li><li class = 'lastSuccedBuild '>{$job['lastSuccessfulBuildTime']}{$claim}\n</li>";
   }
   return $html;
@@ -46,28 +45,22 @@ function displayJobsSuccess($jobsStable)
   return $html;
 }
 
-$result = '';
-if (isset($_GET['view'])) {
-  $ci = new JenkinsCI('http://continuousintegration.corp.ltutech.com', $_GET['view']);
-} else {
-  $ci = new JenkinsCI('http://continuousintegration.corp.ltutech.com');
-}
-
-try {
-  $jobs = $ci->getAllJobs();
-} catch (BuildiatorCIServerCommunicationException $e) {
-  $result = array('status'  => 'error',	'content' => $e->getMessage());
-}
-
-if (!is_array($result)) {
+function generateHtml($jobs)
+{
   $html = '';
 
   $jobsFailed = array();
   $jobsUnstable = array();
   $jobsCancel = array();
   $jobsStable = array();
+  $jobsClaim = array();
+
   foreach ($jobs as $job) {
     $lsStatus = $job['status'][0];
+    if (!empty($job['claim'])) {
+      $jobsClaim[] = $job;
+      continue;
+    }
     if ($lsStatus == 'failed') {
       $jobsFailed[] = $job;
     }
@@ -85,13 +78,32 @@ if (!is_array($result)) {
   usort($jobsFailed, "isort");
   usort($jobsUnstable, "isort");
   usort($jobsCancel, "isort");
+  usort($jobsClaim, "isort");
 
   $html .= displayJobsProblem($jobsFailed);
   $html .= displayJobsProblem($jobsUnstable);
+  $html .= displayJobsClaim($jobsClaim);
   $html .= displayJobsProblem($jobsCancel);
   $html .= displayJobsBorder(count($jobs), count($jobsStable));
   $html .= displayJobsSuccess($jobsStable);
 
+  return $html;
+}
+
+$result = '';
+if (isset($_GET['view'])) {
+  $ci = new JenkinsCI('http://continuousintegration.corp.ltutech.com', $_GET['view']);
+} else {
+  $ci = new JenkinsCI('http://continuousintegration.corp.ltutech.com');
+}
+
+try {
+  $jobs = $ci->getAllJobs();
+} catch (BuildiatorCIServerCommunicationException $e) {
+  $result = array('status'  => 'error',	'content' => $e->getMessage());
+}
+if (!is_array($result)) {
+  $html = generateHtml($jobs);
   $result = array('status' => 'ok', 'content' => $html);
 }
 
