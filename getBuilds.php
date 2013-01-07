@@ -8,7 +8,7 @@ function isort($a,$b) {
     return ($a['timeElapse']) > ($b['timeElapse']);
 }
 
-function displayJosProblem($jobs)
+function displayJobsProblem($jobs)
 {
   $html = '';
   foreach ($jobs as $job) {
@@ -23,9 +23,25 @@ function displayJosProblem($jobs)
     if (!empty($job['claim'])) {
       $culprit = $job['claim'];
       array_push($job['status'], "$culprit claimed");
-      $claim = "<span class='claim' >{$job['claim']}</span>" ;
+      $claim = '<img src="https://account.corp.ltutech.com/photos.php?user=' . $culprit .'" height="60"  style="float:right">';
     }
-    $html .="<li class = 'jobBroken " . implode(" ",$job['status'] ) . "'>{$job['name']}${claim}{$blame}</li><li class = 'lastSuccedBuild '>{$job['lastSuccessfulBuildTime']}\n</li>";
+    $html .="<li class = 'jobBroken " . implode(" ",$job['status'] ) . "'>{$job['name']}</li><li class = 'lastSuccedBuild '>{$job['lastSuccessfulBuildTime']}{$claim}\n</li>";
+  }
+  return $html;
+}
+
+function displayJobsBorder($countJobs, $countJobsStable)
+{
+  $html = '';
+  $html .="<li class = 'jobsBorderHeader '>Successful Builds: $countJobsStable/$countJobs</li>";
+  return $html;
+}
+
+function displayJobsSuccess($jobsStable)
+{
+  $html = '';
+  foreach ($jobsStable as $job) {
+    $html .="<li class = 'jobSuccess " . implode(" ",$job['status'] ) . "'>{$job['name']}</li>";
   }
   return $html;
 }
@@ -45,10 +61,10 @@ try {
 
 if (!is_array($result)) {
   $html = '';
-  usort($jobs, "isort");
 
   $jobsFailed = array();
   $jobsUnstable = array();
+  $jobsCancel = array();
   $jobsStable = array();
   foreach ($jobs as $job) {
     $lsStatus = $job['status'][0];
@@ -58,22 +74,23 @@ if (!is_array($result)) {
     if ($lsStatus == 'unstable') {
       $jobsUnstable[] = $job;
     }
-    if ((($lsStatus == 'successful') or ($lsStatus == 'cancelled')) or ($lsStatus == 'disabled')) {
+    if (($lsStatus == 'cancelled')  or ($lsStatus == 'disabled')) {
+      $jobsCancel[] = $job;
+    }
+    if ($lsStatus == 'successful') {
       $jobsStable[] = $job;
     }
   }
 
-  $html .= displayJosProblem($jobsFailed);
-  $html .= displayJosProblem($jobsUnstable);
+  usort($jobsFailed, "isort");
+  usort($jobsUnstable, "isort");
+  usort($jobsCancel, "isort");
 
-  $countJobs = count($jobs);
-  $countJobsStable = count($jobsStable);
-  $html .="<li class = 'jobsBorderHeader '>Successfull Build: $countJobsStable/$countJobs</li>";
-  $html .="<p>=============================</p>";
-
-  foreach ($jobsStable as $job) {
-    $html .="<li class = 'jobSuccess " . implode(" ",$job['status'] ) . "'>{$job['name']}</li>";
-  }
+  $html .= displayJobsProblem($jobsFailed);
+  $html .= displayJobsProblem($jobsUnstable);
+  $html .= displayJobsProblem($jobsCancel);
+  $html .= displayJobsBorder(count($jobs), count($jobsStable));
+  $html .= displayJobsSuccess($jobsStable);
 
   $result = array('status' => 'ok', 'content' => $html);
 }
