@@ -12,7 +12,15 @@ function displayJobsProblem($jobs)
 {
   $html = '';
   foreach ($jobs as $job) {
-    $html .="<li class = 'jobBroken " . implode(" ",$job['status'] ) . "'>{$job['name']}</li><li class = 'lastSuccedBuild '>{$job['lastSuccessfulBuildTime']}\n</li>";
+    $lsIcon = '';
+    $lsStatus = $job['status'][0];
+    if ($lsStatus == 'cancelled') {
+      $lsIcon = '<img src="images/Pause.png">';
+    }
+    if ($lsStatus == 'disabled') {
+      $lsIcon = '<img src="images/Stop.png">';
+    }
+    $html .="<li class = 'jobBroken " . implode(" ",$job['status'] ) . "'>{$lsIcon}{$job['name']}</li><li class = 'lastSuccedBuild '>{$job['lastSuccessfulBuildTime']}\n</li>";
   }
   return $html;
 }

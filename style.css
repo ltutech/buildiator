@@ -133,7 +133,6 @@ ul {
 }
 
 .disabled {
-	color: red;
 	background: #C9C9C9;
 	background: -webkit-gradient(linear, left top, left bottom, from(#C9C9C9), to(#4B4B4B));
 	background: -moz-linear-gradient(top, #C9C9C9, #4B4B4B);
