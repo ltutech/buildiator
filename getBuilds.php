@@ -40,7 +40,11 @@ function displayJobsClaim($claimJobs)
 function displayJobsBorder($countJobs, $countJobsStable)
 {
   $html = '';
-  $html .="<li class = 'jobsBorderHeader '>Successful Builds: $countJobsStable/$countJobs</li>";
+  $extra = '';
+  if ($countJobs == $countJobsStable) {
+    $extra = '<img src="images/ChuckNorris.png">';
+  }
+  $html .='<li class = "jobsBorderHeader">'."$extra Successful Builds: $countJobsStable/$countJobs $extra</li>";
   return $html;
 }
 

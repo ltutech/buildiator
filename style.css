@@ -38,7 +38,7 @@ ul {
 }
 
 .jobsBorderHeader {
-  color: white;
+  color: #FFFF66;
 	font-size: 3.0em;
 	overflow: hidden;
 	white-space: nowrap;
@@ -46,7 +46,6 @@ ul {
 	-o-text-overflow: ellipsis;
 	margin: 0.3%;
 	width: 90%;
-	height: 50px;
 	padding: 2px;
   text-align: center;
 }
