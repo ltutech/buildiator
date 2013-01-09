@@ -20,7 +20,7 @@ function displayJobsProblem($jobs)
     if ($lsStatus == 'disabled') {
       $lsIcon = '<img src="images/Stop.png">';
     }
-    $html .="<li class = 'jobBroken " . implode(" ",$job['status'] ) . "'>{$lsIcon}{$job['name']}</li><li class = 'lastSuccedBuild '>{$job['lastSuccessfulBuildTime']}\n</li>";
+    $html .="<li class = 'jobBroken " . implode(" ",$job['status'] ) . "'>{$lsIcon}{$job['name']}</li><li class = 'lastSuccedBuild '>{$job['lastSuccessfulBuildTime']}</li>";
   }
   return $html;
 }
@@ -31,8 +31,8 @@ function displayJobsClaim($claimJobs)
   foreach ($claimJobs as $job) {
     $culprit = $job['claim'];
     array_push($job['status'], "$culprit claimed");
-    $claim = '<img src="https://account.corp.ltutech.com/photos.php?user=' . $culprit .'" height="60"  style="float:right">';
-    $html .="<li class = 'jobBroken " . implode(" ",$job['status'] ) . "'>{$job['name']}</li><li class = 'lastSuccedBuild '>{$job['lastSuccessfulBuildTime']}{$claim}\n</li>";
+    $claim = '<img src="https://account.corp.ltutech.com/photos.php?user=' . $culprit .'" height="60"  style="float:right"> ';
+    $html .="<li class = 'jobBroken " . implode(" ",$job['status'] ) . "'>{$job['name']}</li><li class = 'lastSuccedBuild '>{$job['lastSuccessfulBuildTime']}</li>{$claim}";
   }
   return $html;
 }
