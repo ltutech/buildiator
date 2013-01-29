@@ -27,6 +27,6 @@
 }
 
 .rparent {
-  background-image: url('https://account.corp.ltutech.com/photos.php?user=rparent') no-repeat center center;
+  background-image: url('https://account.corp.ltutech.com/photos.php?user=rparent');
   background-position: center center;
 }
