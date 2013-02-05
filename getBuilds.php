@@ -13,6 +13,7 @@ function displayJobsProblem($jobs)
   $html = '';
   foreach ($jobs as $job) {
     $lsIcon = '';
+    $lsUrl = $job['url'];
     $lsStatus = $job['status'][0];
     if ($lsStatus == 'cancelled') {
       $lsIcon = '<img src="images/Pause.png">';
@@ -20,7 +21,18 @@ function displayJobsProblem($jobs)
     if ($lsStatus == 'disabled') {
       $lsIcon = '<img src="images/Stop.png">';
     }
-    $html .="<li class = 'jobBroken " . implode(" ",$job['status'] ) . "'>{$lsIcon}{$job['name']}</li><li class = 'lastSuccedBuild '>{$job['lastSuccessfulBuildTime']}</li>";
+    if ($lsStatus == 'failed') {
+      $lsUrl .= "/lastBuild/console";
+    }
+    if ($lsStatus == 'unstable') {
+      $lsUrl .= "/lastBuild/testReport";
+    }
+    $html .= "<li class = 'jobBroken " . implode(" ",$job['status'] ) . "' onclick=\"window.open('$lsUrl')\">
+              {$lsIcon}{$job['name']}
+             </li>
+             <li class = 'lastSuccedBuild '>
+              {$job['lastSuccessfulBuildTime']}
+             </li>";
   }
   return $html;
 }
@@ -32,7 +44,13 @@ function displayJobsClaim($claimJobs)
     $culprit = $job['claim'];
     array_push($job['status'], "$culprit claimed");
     $claim = '<img src="https://account.corp.ltutech.com/photos.php?user=' . $culprit .'" height="60"  style="float:right"> ';
-    $html .="<li class = 'jobBroken " . implode(" ",$job['status'] ) . "'>{$job['name']}</li><li class = 'lastSuccedBuild '>{$job['lastSuccessfulBuildTime']}</li>{$claim}";
+    $lsUrl = $job['url']."/lastBuild";
+    $html .= "<li class = 'jobBroken " . implode(" ",$job['status'] ) . "' onclick=\"window.open('$lsUrl')\">
+               {$job['name']}
+              </li>
+              <li class = 'lastSuccedBuild '>
+                {$job['lastSuccessfulBuildTime']}{$claim}
+              </li>";
   }
   return $html;
 }
@@ -44,7 +62,9 @@ function displayJobsBorder($countJobs, $countJobsStable)
   if ($countJobs == $countJobsStable) {
     $extra = '<img src="images/ChuckNorris.png">';
   }
-  $html .='<li class = "jobsBorderHeader">'."$extra Successful Builds: $countJobsStable/$countJobs $extra</li>";
+  $html .= '<li class = "jobsBorderHeader">'.
+             "$extra Successful Builds: $countJobsStable/$countJobs $extra
+            </li>";
   return $html;
 }
 
@@ -52,7 +72,9 @@ function displayJobsSuccess($jobsStable)
 {
   $html = '';
   foreach ($jobsStable as $job) {
-    $html .="<li class = 'jobSuccess " . implode(" ",$job['status'] ) . "'>{$job['name']}</li>";
+    $url = $job['url'];
+    $html .="<li class = 'jobSuccess " . implode(" ",$job['status'] ) .
+            "' onclick=\"window.open('$url')\">{$job['name']}</li>";
   }
   return $html;
 }
@@ -108,7 +130,7 @@ if (isset($_GET['view'])) {
 } else {
   $ci = new JenkinsCI('http://continuousintegration.corp.ltutech.com');
 }
-
+$ci = new JenkinsCI('http://continuousintegration.corp.ltutech.com/view/devteam/');
 try {
   $jobs = $ci->getAllJobs();
 } catch (BuildiatorCIServerCommunicationException $e) {

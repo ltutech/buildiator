@@ -24,14 +24,15 @@ class JenkinsCI implements ContinuousIntegrationServerInterface{
 	}
 
 	public function getAllJobs() {
-		$json = @file_get_contents($this->url . $this->view .'/api/json?tree=jobs[name,color]');
+		$json = @file_get_contents($this->url . $this->view .'/api/json?tree=jobs[name,color,url]');
 		if (!$json) {
 			throw new BuildiatorCIServerCommunicationException ("Error getting build data from Jenkins server at {$this->url}");
 		}
 		$jobs = json_decode($json);
 		foreach ($jobs->jobs as $job) {
 			$newjob = array('name'=>$job->name,
-                      'status'=>$this->translateColorToStatus($job->color));
+                      'status'=>$this->translateColorToStatus($job->color),
+                      'url'=>$job->url);
       if ($newjob['status'][0] == 'failed' or $newjob['status'][0] == 'unstable') {
 				$newjob['blame'] = $this->getBlameFor($job->name);
 				$newjob['claim'] = $this->getClaimant($job->name);

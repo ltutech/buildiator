@@ -16,6 +16,7 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.js"></script>
 		<script>
 		var lastdata;
+		$view = 'devteam';
 		function updateJobs(){
 			$.getJSON('getBuilds.php?view=<?php echo $_GET['view']; ?>', function(data){
 				if (data.content != lastdata){
