@@ -16,10 +16,10 @@ function displayJobsProblem($jobs)
     $lsUrl = $job['url'];
     $lsStatus = $job['status'][0];
     if ($lsStatus == 'cancelled') {
-      $lsIcon = '<img src="images/Pause.png">';
+      $lsIcon = '<img src="images/pause.png">';
     }
     if ($lsStatus == 'disabled') {
-      $lsIcon = '<img src="images/Stop.png">';
+      $lsIcon = '<img src="images/stop.png">';
     }
     if ($lsStatus == 'failed') {
       $lsUrl .= "/lastBuild/console";
@@ -27,8 +27,12 @@ function displayJobsProblem($jobs)
     if ($lsStatus == 'unstable') {
       $lsUrl .= "/lastBuild/testReport";
     }
+    $winImage = '';
+    if (preg_match('/Win/', $job['name'], $matches, PREG_OFFSET_CAPTURE, 3)) {
+      $winImage = '<img src="images/win-logo.png" width=42 height=42 style="float:right">';
+    }
     $html .= "<li class = 'jobBroken " . implode(" ",$job['status'] ) . "' onclick=\"window.open('$lsUrl')\">
-              {$lsIcon}{$job['name']}
+              {$lsIcon}{$job['name']}{$winImage}
              </li>
              <li class = 'lastSuccedBuild '>
               {$job['lastSuccessfulBuildTime']}
@@ -45,8 +49,12 @@ function displayJobsClaim($claimJobs)
     array_push($job['status'], "$culprit claimed");
     $claim = '<img src="https://account.corp.ltutech.com/photos.php?user=' . $culprit .'" height="60"  style="float:right"> ';
     $lsUrl = $job['url']."/lastBuild";
+    $winImage = '';
+    if (preg_match('/Win/', $job['name'], $matches, PREG_OFFSET_CAPTURE, 3)) {
+      $winImage = '<img src="images/win-logo.png" width=42 height=42 style="float:right">';
+    }
     $html .= "<li class = 'jobBroken " . implode(" ",$job['status'] ) . "' onclick=\"window.open('$lsUrl')\">
-               {$job['name']}
+               {$job['name']}{$winImage}
               </li>
               <li class = 'lastSuccedBuild '>
                 {$job['lastSuccessfulBuildTime']}{$claim}
@@ -73,8 +81,14 @@ function displayJobsSuccess($jobsStable)
   $html = '';
   foreach ($jobsStable as $job) {
     $url = $job['url'];
+    print
+
+    $winImage = '';
+    if (preg_match('/Win/', $job['name'], $matches, PREG_OFFSET_CAPTURE, 3)) {
+      $winImage = '<img src="images/win-logo.png" width=30 height=30 style="float:right">';
+    }
     $html .="<li class = 'jobSuccess " . implode(" ",$job['status'] ) .
-            "' onclick=\"window.open('$url')\">{$job['name']}</li>";
+            "' onclick=\"window.open('$url')\">{$job['name']}{$winImage}</li>";
   }
   return $html;
 }
