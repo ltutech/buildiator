@@ -27,6 +27,10 @@ function displayJobsProblem($jobs)
     if ($lsStatus == 'unstable') {
       $lsUrl .= "/lastBuild/testReport";
     }
+    if ($job['status'][1] and ($job['status'][1] == 'building'))
+    {
+      $lsUrl = $job['url']."/lastBuild/console";
+    }
     $winImage = '';
     if (preg_match('/Win/', $job['name'], $matches, PREG_OFFSET_CAPTURE, 3)) {
       $winImage = '<img src="images/win-logo.png" width=42 height=42 style="float:right">';
@@ -80,15 +84,18 @@ function displayJobsSuccess($jobsStable)
 {
   $html = '';
   foreach ($jobsStable as $job) {
-    $url = $job['url'];
-    print
+    $lsUrl = $job['url'];
+    if ($job['status'][1] and ($job['status'][1] == 'building'))
+    {
+      $lsUrl .= "/lastBuild/console";
+    }
 
     $winImage = '';
     if (preg_match('/Win/', $job['name'], $matches, PREG_OFFSET_CAPTURE, 3)) {
       $winImage = '<img src="images/win-logo.png" width=30 height=30 style="float:right">';
     }
     $html .="<li class = 'jobSuccess " . implode(" ",$job['status'] ) .
-            "' onclick=\"window.open('$url')\">{$job['name']}{$winImage}</li>";
+            "' onclick=\"window.open('$lsUrl')\">{$job['name']}{$winImage}</li>";
   }
   return $html;
 }
