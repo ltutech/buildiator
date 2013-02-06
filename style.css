@@ -27,32 +27,70 @@ ul {
 	list-style-type: none;
 }
 
+.box {
+	color: white;
+	font-size: 7.0em;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	float: left;
+	margin: 0.3%;
+	padding: 10px;
+	text-align:center;
+
+	-webkit-border-radius: .5em;
+	-moz-border-radius: .5em;
+	border-radius: .5em;
+	-webkit-box-shadow: 0 3px 6px rgba(0,0,0,.4);
+	-moz-box-shadow: 0 3px 6px rgba(0,0,0,.4);
+	box-shadow: 0 3px 6px rgba(0,0,0,.4);
+}
+
+.overlayCounter {
+  background: #111;
+  width: 100%;
+  height: 10%;
+  z-index: 100;
+  bottom: 0;
+  position: fixed;
+}
+
+.counter {
+	font-size: 4.0em;
+	margin: 0.3%;
+	width: 31%;
+	height: 80%;
+	padding: 10px;
+	text-align:center;
+}
+
 .lastSuccedBuild {
 	color: white;
 	font-size: 3.5em;
 	float: left;
 	margin: 0.3%;
-	height: 50px;
+	height: 0px;
 	padding: 10px;
   text-align:left;
 }
 
 .jobsBorderHeader {
   color: #FFFF66;
-	font-size: 3.0em;
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	-o-text-overflow: ellipsis;
-	margin: 0.3%;
-	width: 90%;
-	padding: 2px;
+        font-size: 3.0em;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        -o-text-overflow: ellipsis;
+        margin: 0.3%;
+       width: 90%;
+       padding: 2px;
   text-align: center;
 }
 
 .jobBroken {
 	color: white;
-	font-size: 3.0em;
+	font-size: 3.5em;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
@@ -60,22 +98,15 @@ ul {
 	float: left;
 	margin: 0.3%;
 	width: 75%;
-	height: 50px;
+	height: 70px;
 	padding: 10px;
 	text-align:left;
 
-	border: 2px solid #380000;
-	-webkit-border-radius: .5em;
-	-moz-border-radius: .5em;
-	border-radius: .5em;
-	-webkit-box-shadow: 0 3px 6px rgba(0,0,0,.4);
-	-moz-box-shadow: 0 3px 6px rgba(0,0,0,.4);
-	box-shadow: 0 3px 6px rgba(0,0,0,.4);
 }
 
 .jobSuccess {
 	color: white;
-	font-size: 1.5em;
+	font-size: 3em;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
@@ -83,21 +114,9 @@ ul {
 	float: left;
 	margin: 0.3%;
 	width: 31%;
-	height: 25px;
+	height: 50px;
 	padding: 10px;
   text-align:left;
-
-	border: 1px solid #CCFF00;
-	-webkit-border-radius: .5em;
-	-moz-border-radius: .5em;
-	border-radius: .5em;
-	-webkit-box-shadow: 0 3px 6px rgba(0,0,0,.4);
-	-moz-box-shadow: 0 3px 6px rgba(0,0,0,.4);
-	box-shadow: 0 3px 6px rgba(0,0,0,.4);
-	background: #f9fa2f;
-	background: -webkit-gradient(linear, left top, left bottom, from(#92ce00), to(#4e9700));
-	background: -moz-linear-gradient(top, #92ce00, #4e9700);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#92ce00', endColorstr='#4e9700');
 }
 
 
@@ -110,7 +129,16 @@ ul {
 	background-position: 0px center;
 }
 
+.success {
+	border: 1px solid #CCFF00;
+	background: #f9fa2f;
+	background: -webkit-gradient(linear, left top, left bottom, from(#92ce00), to(#4e9700));
+	background: -moz-linear-gradient(top, #92ce00, #4e9700);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#92ce00', endColorstr='#4e9700');
+}
+
 .failed {
+	border: 2px solid #380000;
 	background: #d81b21;
 	background: -webkit-gradient(linear, left top, left bottom, from(#FF3535), to(#660306));
 	background: -moz-linear-gradient(top, #FF3535, #660306);

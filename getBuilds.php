@@ -16,10 +16,10 @@ function displayJobsProblem($jobs)
     $lsUrl = $job['url'];
     $lsStatus = $job['status'][0];
     if ($lsStatus == 'cancelled') {
-      $lsIcon = '<img src="images/pause.png">';
+      $lsIcon = '<img src="images/pause.png" height=100%>';
     }
     if ($lsStatus == 'disabled') {
-      $lsIcon = '<img src="images/stop.png">';
+      $lsIcon = '<img src="images/stop.png" height=100%>';
     }
     if ($lsStatus == 'failed') {
       $lsUrl .= "/lastBuild/console";
@@ -33,9 +33,9 @@ function displayJobsProblem($jobs)
     }
     $winImage = '';
     if (preg_match('/Win/', $job['name'], $matches, PREG_OFFSET_CAPTURE, 3)) {
-      $winImage = '<img src="images/win-logo.png" width=42 height=42 style="float:right">';
+      $winImage = '<img src="images/win-logo.png" height=100% style="float:right">';
     }
-    $html .= "<li class = 'jobBroken " . implode(" ",$job['status'] ) . "' onclick=\"window.open('$lsUrl')\">
+    $html .= "<li class = 'box jobBroken " . implode(" ",$job['status'] ) . "' onclick=\"window.open('$lsUrl')\">
               {$lsIcon}{$job['name']}{$winImage}
              </li>
              <li class = 'lastSuccedBuild '>
@@ -55,9 +55,9 @@ function displayJobsClaim($claimJobs)
     $lsUrl = $job['url']."/lastBuild";
     $winImage = '';
     if (preg_match('/Win/', $job['name'], $matches, PREG_OFFSET_CAPTURE, 3)) {
-      $winImage = '<img src="images/win-logo.png" width=42 height=42 style="float:right">';
+      $winImage = '<img src="images/win-logo.png" height=100% style="float:right">';
     }
-    $html .= "<li class = 'jobBroken " . implode(" ",$job['status'] ) . "' onclick=\"window.open('$lsUrl')\">
+    $html .= "<li class = 'box jobBroken " . implode(" ",$job['status'] ) . "' onclick=\"window.open('$lsUrl')\">
                {$job['name']}{$winImage}
               </li>
               <li class = 'lastSuccedBuild '>
@@ -67,21 +67,34 @@ function displayJobsClaim($claimJobs)
   return $html;
 }
 
-function displayJobsBorder($countJobs, $countJobsStable)
+function displayJobsBorder($countJobs, $countJobsStable, $countJobsUnstable, $countJobsFailed)
 {
   $html = '';
   $extra = '';
   if ($countJobs == $countJobsStable) {
     $extra = '<img src="images/ChuckNorris.png">';
   }
-  $html .= '<li class = "jobsBorderHeader">'.
-             "$extra Successful Builds: $countJobsStable/$countJobs $extra
-            </li>";
+
+  #$html .= '<li class = "jobsBorderHeader">'.
+  #           "$extra Successful Builds: $extra
+  #          </li>";
+  $html .= '<div class="overlayCounter">
+              <li class = "box counter success">'.
+                "$countJobsStable
+              </li>
+              <li class = \"box counter unstable\">".
+                "$countJobsUnstable
+              </li>
+              <li class = \"box counter failed\">".
+                "$countJobsFailed
+              </li>
+            </div>";
   return $html;
 }
 
 function displayJobsSuccess($jobsStable)
 {
+
   $html = '';
   foreach ($jobsStable as $job) {
     $lsUrl = $job['url'];
@@ -94,7 +107,7 @@ function displayJobsSuccess($jobsStable)
     if (preg_match('/Win/', $job['name'], $matches, PREG_OFFSET_CAPTURE, 3)) {
       $winImage = '<img src="images/win-logo.png" width=30 height=30 style="float:right">';
     }
-    $html .="<li class = 'jobSuccess " . implode(" ",$job['status'] ) .
+    $html .="<li class = 'box jobSuccess success " . implode(" ",$job['status'] ) .
             "' onclick=\"window.open('$lsUrl')\">{$job['name']}{$winImage}</li>";
   }
   return $html;
@@ -109,6 +122,7 @@ function generateHtml($jobs)
   $jobsCancel = array();
   $jobsStable = array();
   $jobsClaim = array();
+
 
   foreach ($jobs as $job) {
     $lsStatus = $job['status'][0];
@@ -139,7 +153,7 @@ function generateHtml($jobs)
   $html .= displayJobsProblem($jobsUnstable);
   $html .= displayJobsClaim($jobsClaim);
   $html .= displayJobsProblem($jobsCancel);
-  $html .= displayJobsBorder(count($jobs), count($jobsStable));
+  $html .= displayJobsBorder(count($jobs), count($jobsStable), count($jobsUnstable), count($jobsFailed));
   $html .= displayJobsSuccess($jobsStable);
 
   return $html;
