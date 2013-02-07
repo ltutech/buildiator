@@ -33,12 +33,15 @@ class JenkinsCI implements ContinuousIntegrationServerInterface{
 			$newjob = array('name'=>$job->name,
                       'status'=>$this->translateColorToStatus($job->color),
                       'url'=>$job->url);
-      if ($newjob['status'][0] == 'failed' or $newjob['status'][0] == 'unstable') {
-				$newjob['blame'] = $this->getBlameFor($job->name);
+      if ($newjob['status'][0] != 'success') {
+				#$newjob['blame'] = $this->getBlameFor($job->name);
 				$newjob['claim'] = $this->getClaimant($job->name);
         $timeElapse = $this->getFirstUnsuccessfulBuild($job->name);
         $newjob['timeElapse'] = $timeElapse;
-        $newjob['lastSuccessfulBuildTime'] = $this->humanTiming ($timeElapse);
+        if ($timeElapse){
+          $newjob['lastSuccessfulBuildTime'] = $this->humanTiming ($timeElapse);
+        }
+
 			}
 			$return[] = $newjob;
 		}
@@ -80,6 +83,8 @@ class JenkinsCI implements ContinuousIntegrationServerInterface{
       $json2 = file_get_contents($this->url . "/job/{$job}/{$number}/api/json?tree=timestamp");
     }
     $firstUnsuccessfulBuild = json_decode($json2);
+    #print $jobName;
+    #print $firstUnsuccessfulBuild->timestamp;
     return $firstUnsuccessfulBuild->timestamp;
 }
 

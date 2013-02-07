@@ -29,7 +29,7 @@ ul {
 
 .box {
 	color: white;
-	font-size: 7.0em;
+	font-size: 3.0em;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
@@ -70,37 +70,41 @@ ul {
 	font-size: 3.5em;
 	float: left;
 	margin: 0.3%;
-	height: 0px;
+	width: 20%;
+	height: 10%;
+
 	padding: 10px;
   text-align:left;
 }
 
 .jobsBorderHeader {
   color: #FFFF66;
-        font-size: 3.0em;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        -o-text-overflow: ellipsis;
-        margin: 0.3%;
-       width: 90%;
-       padding: 2px;
-  text-align: center;
+  font-size: 3.0em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  margin: 0.3%;
+  width: 90%;
+  padding: 2px;
+	text-align: center;
 }
 
 .jobBroken {
+	display: table;
 	color: white;
 	font-size: 3.5em;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	-o-text-overflow: ellipsis;
-	float: left;
 	margin: 0.3%;
 	width: 75%;
 	height: 70px;
 	padding: 10px;
 	text-align:left;
+	display: table-cell;
+  vertical-align: middle;
 
 }
 
@@ -116,7 +120,7 @@ ul {
 	width: 31%;
 	height: 50px;
 	padding: 10px;
-  text-align:left;
+  text-align: left;
 }
 
 

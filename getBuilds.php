@@ -16,10 +16,10 @@ function displayJobsProblem($jobs)
     $lsUrl = $job['url'];
     $lsStatus = $job['status'][0];
     if ($lsStatus == 'cancelled') {
-      $lsIcon = '<img src="images/pause.png" height=100%>';
+      $lsIcon = '<img src="images/pause.png" height=100% style="float:left">';
     }
     if ($lsStatus == 'disabled') {
-      $lsIcon = '<img src="images/stop.png" height=100%>';
+      $lsIcon = '<img src="images/stop.png" height=100% style="float:left">';
     }
     if ($lsStatus == 'failed') {
       $lsUrl .= "/lastBuild/console";
@@ -31,38 +31,24 @@ function displayJobsProblem($jobs)
     {
       $lsUrl = $job['url']."/lastBuild/console";
     }
+
+    $claim = '';
+    if (!empty($job['claim'])) {
+      $culprit = $job['claim'];
+      $claim = '<img src="https://account.corp.ltutech.com/photos.php?user=' . $culprit .'" height=60  style="float:right"> ';
+    }
+
+
     $winImage = '';
     if (preg_match('/Win/', $job['name'], $matches, PREG_OFFSET_CAPTURE, 3)) {
       $winImage = '<img src="images/win-logo.png" height=100% style="float:right">';
     }
     $html .= "<li class = 'box jobBroken " . implode(" ",$job['status'] ) . "' onclick=\"window.open('$lsUrl')\">
-              {$lsIcon}{$job['name']}{$winImage}
+              {$lsIcon}<div style=\"float:left\">{$job['name']}</div>{$winImage}<br style=\"clear:both\"/>
              </li>
              <li class = 'lastSuccedBuild '>
-              {$job['lastSuccessfulBuildTime']}
+              {$job['lastSuccessfulBuildTime']}{$claim}
              </li>";
-  }
-  return $html;
-}
-
-function displayJobsClaim($claimJobs)
-{
-  $html = '';
-  foreach ($claimJobs as $job) {
-    $culprit = $job['claim'];
-    array_push($job['status'], "$culprit claimed");
-    $claim = '<img src="https://account.corp.ltutech.com/photos.php?user=' . $culprit .'" height="60"  style="float:right"> ';
-    $lsUrl = $job['url']."/lastBuild";
-    $winImage = '';
-    if (preg_match('/Win/', $job['name'], $matches, PREG_OFFSET_CAPTURE, 3)) {
-      $winImage = '<img src="images/win-logo.png" height=100% style="float:right">';
-    }
-    $html .= "<li class = 'box jobBroken " . implode(" ",$job['status'] ) . "' onclick=\"window.open('$lsUrl')\">
-               {$job['name']}{$winImage}
-              </li>
-              <li class = 'lastSuccedBuild '>
-                {$job['lastSuccessfulBuildTime']}{$claim}
-              </li>";
   }
   return $html;
 }
@@ -105,7 +91,7 @@ function displayJobsSuccess($jobsStable)
 
     $winImage = '';
     if (preg_match('/Win/', $job['name'], $matches, PREG_OFFSET_CAPTURE, 3)) {
-      $winImage = '<img src="images/win-logo.png" width=30 height=30 style="float:right">';
+      $winImage = '<img src="images/win-logo.png" height=100% style="float:right">';
     }
     $html .="<li class = 'box jobSuccess success " . implode(" ",$job['status'] ) .
             "' onclick=\"window.open('$lsUrl')\">{$job['name']}{$winImage}</li>";
@@ -121,15 +107,10 @@ function generateHtml($jobs)
   $jobsUnstable = array();
   $jobsCancel = array();
   $jobsStable = array();
-  $jobsClaim = array();
-
+  $jobsStableBuilding = array();
 
   foreach ($jobs as $job) {
     $lsStatus = $job['status'][0];
-    if (!empty($job['claim'])) {
-      $jobsClaim[] = $job;
-      continue;
-    }
     if ($lsStatus == 'failed') {
       $jobsFailed[] = $job;
     }
@@ -141,6 +122,8 @@ function generateHtml($jobs)
     }
     if ($lsStatus == 'successful') {
       $jobsStable[] = $job;
+      if ($job['status'][1] and ($job['status'][1] == 'building'))
+      $jobsStableBuilding[] = $job;
     }
   }
 
@@ -151,10 +134,10 @@ function generateHtml($jobs)
 
   $html .= displayJobsProblem($jobsFailed);
   $html .= displayJobsProblem($jobsUnstable);
-  $html .= displayJobsClaim($jobsClaim);
+  $html .= displayJobsProblem($jobsClaim);
   $html .= displayJobsProblem($jobsCancel);
   $html .= displayJobsBorder(count($jobs), count($jobsStable), count($jobsUnstable), count($jobsFailed));
-  $html .= displayJobsSuccess($jobsStable);
+  $html .= displayJobsSuccess($jobsStableBuilding);
 
   return $html;
 }
