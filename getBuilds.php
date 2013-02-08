@@ -53,18 +53,35 @@ function displayJobsProblem($jobs)
   return $html;
 }
 
-function displayJobsBorder($countJobs, $countJobsStable, $countJobsUnstable, $countJobsFailed)
+function ChuckNorris()
 {
   $html = '';
-  $extra = '';
-  if ($countJobs == $countJobsStable) {
-    $extra = '<img src="images/ChuckNorris.png">';
-  }
+  $html .= '<img class=ChuckNorrisRight src="images/ChuckNorris.png">';
+  $html .= '<img class="ChuckNorrisLeft flip-horizontal" src="images/ChuckNorris.png">';
 
-  #$html .= '<li class = "jobsBorderHeader">'.
-  #           "$extra Successful Builds: $extra
-  #          </li>";
-  $html .= '<div class="overlayCounter">
+
+  return $html;
+}
+
+function displayRandomTumblrLesJoixDuCode()
+{
+  $html = '';
+  $url = 'http://lesjoiesducode.tumblr.com/random';
+  $str = file_get_contents($url);
+
+  if (preg_match('/<div class="post">(.+?)<h3>(.+?)">(.+?)<\/a>(.+?)<img(.+?)src="(.+?)\.gif"/', $str, $matches)) {
+      $lsMessage = $matches[3];
+      $lsURLGif = $matches[6] . ".gif";
+    }
+
+  $html .= "<img class=tumblrImage src=\"$lsURLGif\">" . "<div class=tumblrMessage><a>{$lsMessage}</a>";
+  #print "\n";
+  return $html;
+}
+
+function displayJobsBorder($countJobsStable, $countJobsUnstable, $countJobsFailed)
+{
+  $html = '<div class="overlayCounter">
               <li class = "box counter success">'.
                 "$countJobsStable
               </li>
@@ -121,9 +138,12 @@ function generateHtml($jobs)
       $jobsCancel[] = $job;
     }
     if ($lsStatus == 'successful') {
-      $jobsStable[] = $job;
-      if ($job['status'][1] and ($job['status'][1] == 'building'))
-      $jobsStableBuilding[] = $job;
+      if ($job['status'][1] and ($job['status'][1] == 'building')) {
+        $jobsStableBuilding[] = $job;
+      }
+      else {
+        $jobsStable[] = $job;
+      }
     }
   }
 
@@ -136,8 +156,13 @@ function generateHtml($jobs)
   $html .= displayJobsProblem($jobsUnstable);
   $html .= displayJobsProblem($jobsClaim);
   $html .= displayJobsProblem($jobsCancel);
-  $html .= displayJobsBorder(count($jobs), count($jobsStable), count($jobsUnstable), count($jobsFailed));
+  $html .= displayJobsBorder(count($jobsStableBuilding) + count($jobsStable), count($jobsUnstable), count($jobsFailed));
   $html .= displayJobsSuccess($jobsStableBuilding);
+
+  if (count($jobsUnstable) + count($jobsFailed) == 0) {
+    $html .= ChuckNorris();
+    $html .= displayRandomTumblrLesJoixDuCode();
+  }
 
   return $html;
 }
@@ -148,6 +173,7 @@ if (isset($_GET['view'])) {
 } else {
   $ci = new JenkinsCI('http://continuousintegration.corp.ltutech.com');
 }
+$ci = new JenkinsCI('http://continuousintegration.corp.ltutech.com/view/PixTrakk/');
 try {
   $jobs = $ci->getAllJobs();
 } catch (BuildiatorCIServerCommunicationException $e) {

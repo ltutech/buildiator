@@ -27,6 +27,38 @@ ul {
 	list-style-type: none;
 }
 
+.tumblrMessage {
+	color: white;
+	font-size: 3.0em;
+}
+
+.tumblrImage
+{
+	margin-top: 5%;
+	float: center;
+}
+
+.ChuckNorrisLeft {
+  bottom: 0;
+  left: 0;
+  position: fixed;
+}
+
+.flip-horizontal {
+    -moz-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    transform: scaleX(-1);
+    -ms-filter: fliph; /*IE*/
+    filter: fliph; /*IE*/
+}
+
+.ChuckNorrisRight {
+  bottom: 0;
+  right: 0;
+  position: fixed;
+}
+
 .box {
 	color: white;
 	font-size: 3.0em;
