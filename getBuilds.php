@@ -173,7 +173,7 @@ if (isset($_GET['view'])) {
 } else {
   $ci = new JenkinsCI('http://continuousintegration.corp.ltutech.com');
 }
-$ci = new JenkinsCI('http://continuousintegration.corp.ltutech.com/view/PixTrakk/');
+
 try {
   $jobs = $ci->getAllJobs();
 } catch (BuildiatorCIServerCommunicationException $e) {
