@@ -55,8 +55,8 @@
 		});
 
 		</script>
-		<ul id="jobs">
+		<div id="jobs">
 			<!--this is where the jobs go-->
-		</ul>
+		</div>
 	</body>
 </html>

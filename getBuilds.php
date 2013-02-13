@@ -45,8 +45,9 @@ function displayJobsProblem($jobs)
     }
     $html .= "<li class = 'box jobBroken " . implode(" ",$job['status'] ) . "' onclick=\"window.open('$lsUrl')\">
               {$lsIcon}<div style=\"float:left\">{$job['name']}</div>{$winImage}<br style=\"clear:both\"/>
-             </li>
-             <li class = 'lastSuccedBuild '>
+             </li>";
+  $html .= "<div id=\"building_jobs\">".displayJobsSuccess($jobsStableBuilding)."</div>
+             <li class = \"lastSuccedBuild\">
               {$job['lastSuccessfulBuildTime']}{$claim}
              </li>";
   }
@@ -81,7 +82,7 @@ function displayRandomTumblrLesJoixDuCode()
 
 function displayJobsBorder($countJobsStable, $countJobsUnstable, $countJobsFailed)
 {
-  $html = '<div class="overlayCounter">
+  $html = '<ul>
               <li class = "box counter success">'.
                 "$countJobsStable
               </li>
@@ -91,7 +92,7 @@ function displayJobsBorder($countJobsStable, $countJobsUnstable, $countJobsFaile
               <li class = \"box counter failed\">".
                 "$countJobsFailed
               </li>
-            </div>";
+            </ul>";
   return $html;
 }
 
@@ -151,13 +152,14 @@ function generateHtml($jobs)
   usort($jobsUnstable, "isort");
   usort($jobsCancel, "isort");
   usort($jobsClaim, "isort");
-
+  $html .= '<ul id="job_alerts">';
   $html .= displayJobsProblem($jobsFailed);
   $html .= displayJobsProblem($jobsUnstable);
   $html .= displayJobsProblem($jobsClaim);
   $html .= displayJobsProblem($jobsCancel);
-  $html .= displayJobsBorder(count($jobsStableBuilding) + count($jobsStable), count($jobsUnstable), count($jobsFailed));
-  $html .= displayJobsSuccess($jobsStableBuilding);
+  $html .= '</ul>';
+  $html .= '<ul id="running_jobs">'.displayJobsSuccess($jobsStableBuilding).'</ul>';
+  $html .= '<div id="overlayCounter">'.displayJobsBorder(count($jobsStableBuilding) + count($jobsStable), count($jobsUnstable), count($jobsFailed)).'</div>';
 
   if (count($jobsUnstable) + count($jobsFailed) == 0) {
     $html .= ChuckNorris();
