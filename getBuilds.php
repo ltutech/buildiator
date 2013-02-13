@@ -76,7 +76,7 @@ function displayRandomTumblrLesJoixDuCode()
     }
 
   $html .= "<img class=tumblrImage src=\"$lsURLGif\">" . "<div class=tumblrMessage><a>{$lsMessage}</a>";
-  #print "\n";
+
   return $html;
 }
 
@@ -163,7 +163,13 @@ function generateHtml($jobs)
 
   if (count($jobsUnstable) + count($jobsFailed) == 0) {
     $html .= ChuckNorris();
-    $html .= displayRandomTumblrLesJoixDuCode();
+    $minutes = intval(date('i'));
+    $secondes = intval(date('s'));
+
+    if (($minutes == 0) and ($second < 10))
+    {
+      $html .= displayRandomTumblrLesJoixDuCode();
+    }
   }
 
   return $html;
