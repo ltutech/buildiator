@@ -161,7 +161,7 @@ function generateHtml($jobs)
   $html .= '<ul id="running_jobs">'.displayJobsSuccess($jobsStableBuilding).'</ul>';
   $html .= '<div id="overlayCounter">'.displayJobsBorder(count($jobsStableBuilding) + count($jobsStable), count($jobsUnstable), count($jobsFailed)).'</div>';
 
-  if (count($jobsUnstable) + count($jobsFailed) == 0) {
+  if (count($jobsUnstable) + count($jobsFailed) + count($jobsCancel) == 0) {
     $html .= ChuckNorris();
     $minutes = intval(date('i'));
     $secondes = intval(date('s'));
