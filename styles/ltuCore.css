@@ -2,6 +2,13 @@
   background-image: url('/product/chauve.jpg');
 }
 
+.imageVictory {
+  display: block;
+  height: 100px;
+  width: 200px;
+  padding-bottom: 100px;
+  background: url('/images/mantis_shrimp.png') no-repeat;
+}
 
 .job {
   width: 47%;

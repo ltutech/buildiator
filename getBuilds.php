@@ -54,11 +54,11 @@ function displayJobsProblem($jobs)
   return $html;
 }
 
-function ChuckNorris()
+function imageVictory()
 {
   $html = '';
-  $html .= '<img class=ChuckNorrisRight src="images/ChuckNorris.png">';
-  $html .= '<img class="ChuckNorrisLeft flip-horizontal" src="images/ChuckNorris.png">';
+  $html .= '<div class="imageVictoryRight imageVictory"></div>';
+  $html .= '<div class="imageVictoryLeft imageVictory flip-horizontal"></div>';
 
 
   return $html;
@@ -162,7 +162,7 @@ function generateHtml($jobs)
   $html .= '<div id="overlayCounter">'.displayJobsBorder(count($jobsStableBuilding) + count($jobsStable), count($jobsUnstable), count($jobsFailed)).'</div>';
 
   if (count($jobsUnstable) + count($jobsFailed) + count($jobsCancel) == 0) {
-    $html .= ChuckNorris();
+    $html .= imageVictory();
     $minutes = intval(date('i'));
     $secondes = intval(date('s'));
 

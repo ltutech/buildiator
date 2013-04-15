@@ -62,7 +62,7 @@ ul {
 	float: center;
 }
 
-.ChuckNorrisLeft {
+.imageVictoryLeft {
   bottom: 0;
   left: 0;
   position: fixed;
@@ -77,7 +77,7 @@ ul {
     filter: fliph; /*IE*/
 }
 
-.ChuckNorrisRight {
+.imageVictoryRight {
   bottom: 0;
   right: 0;
   position: fixed;
