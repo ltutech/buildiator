@@ -11,6 +11,7 @@ function isort($a,$b) {
 function displayJobsProblem($jobs)
 {
   $html = '';
+  if (isset($jobs))
   foreach ($jobs as $job) {
     $lsIcon = '';
     $lsUrl = $job['url'];
@@ -100,6 +101,7 @@ function displayJobsSuccess($jobsStable)
 {
 
   $html = '';
+  if (isset($jobsStable))
   foreach ($jobsStable as $job) {
     $lsUrl = $job['url'];
     if ($job['status'][1] and ($job['status'][1] == 'building'))
@@ -127,6 +129,7 @@ function generateHtml($jobs)
   $jobsStable = array();
   $jobsStableBuilding = array();
 
+  if (isset($jobs))
   foreach ($jobs as $job) {
     $lsStatus = $job['status'][0];
     if ($lsStatus == 'failed') {

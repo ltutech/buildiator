@@ -104,13 +104,12 @@ class JenkinsCI implements ContinuousIntegrationServerInterface{
 		$job = rawurlencode($jobName);
 		$json = @file_get_contents($this->url . "/job/{$job}/lastBuild/api/json?tree=actions[claimed,claimedBy,reason]");
 		$actions = json_decode($json);
-		foreach ($actions->actions as $action) {
-       if (isset($action->claimed)) {
-           if ($action->claimed) {
-              return $action->claimedBy;
-           }
-        }
-		}
+		if (isset($actions))
+			foreach ($actions->actions as $action) {
+				if (isset($action->claimed) && $action->claimed)
+              				return $action->claimedBy;
+
+			}
 		return null;
 	}
 
