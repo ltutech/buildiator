@@ -148,10 +148,10 @@ function generateHtml($jobs)
     }
   }
 
-  usort($jobsFailed, "isort");
-  usort($jobsUnstable, "isort");
-  usort($jobsCancel, "isort");
-  usort($jobsClaim, "isort");
+  @usort($jobsFailed, "isort");
+  @usort($jobsUnstable, "isort");
+  @usort($jobsCancel, "isort");
+  @usort($jobsClaim, "isort");
   $html .= '<ul id="job_alerts">';
   $html .= displayJobsProblem($jobsFailed);
   $html .= displayJobsProblem($jobsUnstable);
