@@ -72,15 +72,15 @@ class JenkinsCI implements ContinuousIntegrationServerInterface{
 
 	public function getFirstUnsuccessfulBuild($jobName) {
     $job = rawurlencode($jobName);
-		$json = file_get_contents($this->url . "/job/{$job}/api/json?tree=lastStableBuild[number]");
+		$json = @file_get_contents($this->url . "/job/{$job}/api/json?tree=lastStableBuild[number]");
 		$lastStableBuild = json_decode($json);
     $number = $lastStableBuild->lastStableBuild->number + 1;
-    $json2 = file_get_contents($this->url . "/job/{$job}/{$number}/api/json?tree=timestamp");
+    $json2 = @file_get_contents($this->url . "/job/{$job}/{$number}/api/json?tree=timestamp");
     // If the number doesn't refers to any existing build (It has been remove by the user)
     // The timestanp return will be the one of the last successfull build
     if (!$json2) {
       $number = $lastStableBuild->lastStableBuild->number;
-      $json2 = file_get_contents($this->url . "/job/{$job}/{$number}/api/json?tree=timestamp");
+      $json2 = @file_get_contents($this->url . "/job/{$job}/{$number}/api/json?tree=timestamp");
     }
     $firstUnsuccessfulBuild = json_decode($json2);
     #print $jobName;
@@ -90,7 +90,7 @@ class JenkinsCI implements ContinuousIntegrationServerInterface{
 
 	private function getBlameFor($jobName) {
 		$job = rawurlencode($jobName);
-		$json = file_get_contents($this->url . "/job/{$job}/lastBuild/api/json?tree=culprits[fullName]");
+		$json = @file_get_contents($this->url . "/job/{$job}/lastBuild/api/json?tree=culprits[fullName]");
 		$culprits = json_decode($json);
 
 		if (empty($culprits->culprits)) {
@@ -102,7 +102,7 @@ class JenkinsCI implements ContinuousIntegrationServerInterface{
 
 	private function getClaimant($jobName) {
 		$job = rawurlencode($jobName);
-		$json = file_get_contents($this->url . "/job/{$job}/lastBuild/api/json?tree=actions[claimed,claimedBy,reason]");
+		$json = @file_get_contents($this->url . "/job/{$job}/lastBuild/api/json?tree=actions[claimed,claimedBy,reason]");
 		$actions = json_decode($json);
 		foreach ($actions->actions as $action) {
        if (isset($action->claimed)) {

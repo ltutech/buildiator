@@ -68,7 +68,7 @@ function displayRandomTumblrLesJoixDuCode()
 {
   $html = '';
   $url = 'http://lesjoiesducode.tumblr.com/random';
-  $str = file_get_contents($url);
+  $str = @file_get_contents($url);
 
   if (preg_match('/<div class="post">(.+?)<h3>(.+?)">(.+?)<\/a>(.+?)<img(.+?)src="(.+?)\.gif"/', $str, $matches)) {
       $lsMessage = $matches[3];
