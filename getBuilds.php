@@ -180,9 +180,9 @@ function generateHtml($jobs)
 
 $result = '';
 if (isset($_GET['view'])) {
-  $ci = new JenkinsCI('http://continuousintegration.corp.ltutech.com', $_GET['view']);
+  $ci = new JenkinsCI('https://continuousintegration.corp.ltutech.com', $_GET['view']);
 } else {
-  $ci = new JenkinsCI('http://continuousintegration.corp.ltutech.com');
+  $ci = new JenkinsCI('https://continuousintegration.corp.ltutech.com');
 }
 
 try {
