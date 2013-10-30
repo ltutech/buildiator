@@ -4,10 +4,10 @@
 
 .imageVictory {
   display: block;
-  height: 100px;
-  width: 200px;
+  height: 450px;
+  width: 600px;
   padding-bottom: 100px;
-  background: url('/images/mantis_shrimp.png') no-repeat;
+  background: url('/images/mantis_shrimp_oatmeal.jpg') no-repeat;
 }
 
 .job {
