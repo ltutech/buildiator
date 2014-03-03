@@ -28,8 +28,7 @@ function displayJobsProblem($jobs)
     if ($lsStatus == 'unstable') {
       $lsUrl .= "/lastBuild/testReport";
     }
-    if ($job['status'][1] and ($job['status'][1] == 'building'))
-    {
+    if ($job['status'][1] and ($job['status'][1] == 'building')) {
       $lsUrl = $job['url']."/lastBuild/console";
     }
 
@@ -38,7 +37,6 @@ function displayJobsProblem($jobs)
       $culprit = $job['claim'];
       $claim = '<img src="https://account.corp.ltutech.com/photos.php?user=' . $culprit .'" height=60  style="float:right"> ';
     }
-
 
     $winImage = '';
     if (preg_match('/Win/', $job['name'], $matches, PREG_OFFSET_CAPTURE, 3)) {
@@ -60,8 +58,6 @@ function imageVictory()
   $html = '';
   $html .= '<div class="imageVictoryRight imageVictory"></div>';
   $html .= '<div class="imageVictoryLeft imageVictory flip-horizontal"></div>';
-
-
   return $html;
 }
 
@@ -72,12 +68,11 @@ function displayRandomTumblrLesJoixDuCode()
   $str = @file_get_contents($url);
 
   if (preg_match('/<div class="post">(.+?)<h3>(.+?)">(.+?)<\/a>(.+?)<img(.+?)src="(.+?)\.gif"/', $str, $matches)) {
-      $lsMessage = $matches[3];
-      $lsURLGif = $matches[6] . ".gif";
-    }
+    $lsMessage = $matches[3];
+    $lsURLGif = $matches[6] . ".gif";
+  }
 
   $html .= "<img class=tumblrImage src=\"$lsURLGif\">" . "<div class=tumblrMessage><a>{$lsMessage}</a>";
-
   return $html;
 }
 
@@ -99,13 +94,11 @@ function displayJobsBorder($countJobsStable, $countJobsUnstable, $countJobsFaile
 
 function displayJobsSuccess($jobsStable)
 {
-
   $html = '';
   if (isset($jobsStable))
   foreach ($jobsStable as $job) {
     $lsUrl = $job['url'];
-    if ($job['status'][1] and ($job['status'][1] == 'building'))
-    {
+    if ($job['status'][1] and ($job['status'][1] == 'building')) {
       $lsUrl .= "/lastBuild/console";
     }
 
@@ -129,24 +122,25 @@ function generateHtml($jobs)
   $jobsStable = array();
   $jobsStableBuilding = array();
 
-  if (isset($jobs))
-  foreach ($jobs as $job) {
-    $lsStatus = $job['status'][0];
-    if ($lsStatus == 'failed') {
-      $jobsFailed[] = $job;
-    }
-    if ($lsStatus == 'unstable') {
-      $jobsUnstable[] = $job;
-    }
-    if (($lsStatus == 'cancelled')  or ($lsStatus == 'disabled')) {
-      $jobsCancel[] = $job;
-    }
-    if ($lsStatus == 'successful') {
-      if ($job['status'][1] and ($job['status'][1] == 'building')) {
-        $jobsStableBuilding[] = $job;
+  if (isset($jobs)) {
+    foreach ($jobs as $job) {
+      $lsStatus = $job['status'][0];
+      if ($lsStatus == 'failed') {
+        $jobsFailed[] = $job;
       }
-      else {
-        $jobsStable[] = $job;
+      if ($lsStatus == 'unstable') {
+        $jobsUnstable[] = $job;
+      }
+      if (($lsStatus == 'cancelled')  or ($lsStatus == 'disabled')) {
+        $jobsCancel[] = $job;
+      }
+      if ($lsStatus == 'successful') {
+        if ($job['status'][1] and ($job['status'][1] == 'building')) {
+          $jobsStableBuilding[] = $job;
+        }
+        else {
+          $jobsStable[] = $job;
+        }
       }
     }
   }
@@ -169,8 +163,7 @@ function generateHtml($jobs)
     $minutes = intval(date('i'));
     $secondes = intval(date('s'));
 
-    if (($minutes == 0) and ($second < 10))
-    {
+    if (($minutes == 0) and ($second < 10)) {
       $html .= displayRandomTumblrLesJoixDuCode();
     }
   }
