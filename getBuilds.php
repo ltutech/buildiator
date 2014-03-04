@@ -49,7 +49,6 @@ function displayJobsProblem($jobs)
     }
 
     $html .= "<li class = 'box jobBroken " . implode(" ",$job['status'] ) . "' onclick=\"window.open('$lsUrl')\">
-              {$lsIcon}
               <div class=\"buildName\">
                 {$job['name']}
               </div>
