@@ -102,6 +102,7 @@ ul {
 	height: 80%;
 	padding: 10px;
 	text-align:center;
+  text-shadow: 0 0 0.1em #000, 0 0 0.1em #000
 }
 
 .lastSuccedBuild {
@@ -135,6 +136,7 @@ ul {
   line-height: 100%;
   z-index: 1;
   vertical-align: middle;
+  text-shadow: 0 0 0.1em #000, 0 0 0.1em #000
 }
 
 .buildName {
