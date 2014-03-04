@@ -41,6 +41,9 @@ class JenkinsCI implements ContinuousIntegrationServerInterface{
         if ($timeElapse){
           $newjob['lastSuccessfulBuildTime'] = $this->humanTiming ($timeElapse);
         }
+        if (count($newjob['status']) >= 2 and ($newjob['status'][1] == 'building')) {
+          $newjob['progess'] = $this->getExecutionProgress($job->name);
+        }
 
 			}
 			$return[] = $newjob;
@@ -69,6 +72,11 @@ class JenkinsCI implements ContinuousIntegrationServerInterface{
     }
   }
 
+  public function getExecutionProgress($jobName) {
+    $job = rawurlencode($jobName);
+    $json = @file_get_contents($this->url . "/job/{$job}/lastBuild/executor/api/json?tree=progress");
+    return json_decode($json)->progress;
+  }
 
 	public function getFirstUnsuccessfulBuild($jobName) {
     $job = rawurlencode($jobName);
@@ -83,10 +91,8 @@ class JenkinsCI implements ContinuousIntegrationServerInterface{
       $json2 = @file_get_contents($this->url . "/job/{$job}/{$number}/api/json?tree=timestamp");
     }
     $firstUnsuccessfulBuild = json_decode($json2);
-    #print $jobName;
-    #print $firstUnsuccessfulBuild->timestamp;
     return $firstUnsuccessfulBuild->timestamp;
-}
+  }
 
 	private function getBlameFor($jobName) {
 		$job = rawurlencode($jobName);
@@ -97,7 +103,6 @@ class JenkinsCI implements ContinuousIntegrationServerInterface{
 			return "Unknown";
 		}
 		return $culprits->culprits[0]->fullName;
-
 	}
 
 	private function getClaimant($jobName) {
