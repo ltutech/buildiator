@@ -42,8 +42,18 @@ function displayJobsProblem($jobs)
     if (preg_match('/Win/', $job['name'], $matches, PREG_OFFSET_CAPTURE, 3)) {
       $winImage = '<img src="images/win-logo.png" height=100% style="float:right">';
     }
+
+    $progress = 0;
+    if (!empty($job['progress'])) {
+      $progress = $job['progress'];
+    }
+
     $html .= "<li class = 'box jobBroken " . implode(" ",$job['status'] ) . "' onclick=\"window.open('$lsUrl')\">
-              {$lsIcon}<div style=\"float:left\">{$job['name']}</div>{$winImage}<br style=\"clear:both\"/>
+              {$lsIcon}
+              <div class=\"buildName\">
+                {$job['name']}
+              </div>
+              <span style=\"width:{$progress}%\"></span>
              </li>";
     $html .= "<div id=\"building_jobs\">".displayJobsSuccess($jobsStableBuilding)."</div>
              <li class = \"lastSuccedBuild\">
@@ -79,7 +89,7 @@ function displayRandomTumblrLesJoixDuCode()
 function displayJobsBorder($countJobsStable, $countJobsUnstable, $countJobsFailed)
 {
   $html = '<ul>
-              <li class = "box counter success">'.
+              <li class = "box counter successful">'.
                 "$countJobsStable
               </li>
               <li class = \"box counter unstable\">".
@@ -106,8 +116,10 @@ function displayJobsSuccess($jobsStable)
     if (preg_match('/Win/', $job['name'], $matches, PREG_OFFSET_CAPTURE, 3)) {
       $winImage = '<img src="images/win-logo.png" height=100% style="float:right">';
     }
-    $html .="<li class='box jobSuccess success " . implode(" ",$job['status'] ) .
-            " onclick=\"window.open('$lsUrl')\">{$job['name']}{$winImage}</li>";
+    $html .="<li class='box jobSuccess " . implode(" ",$job['status'] ) .
+            " onclick=\"window.open('$lsUrl')\">
+            <div class=\"buildName\">{$job['name']}{$winImage}</div>
+            <span style=\"width:{$job['progress']}%\"></span></li>";
   }
   return $html;
 }

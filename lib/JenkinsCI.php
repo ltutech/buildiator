@@ -42,7 +42,7 @@ class JenkinsCI implements ContinuousIntegrationServerInterface{
           $newjob['lastSuccessfulBuildTime'] = $this->humanTiming ($timeElapse);
         }
         if (count($newjob['status']) >= 2 and ($newjob['status'][1] == 'building')) {
-          $newjob['progess'] = $this->getExecutionProgress($job->name);
+          $newjob['progress'] = $this->getExecutionProgress($job->name);
         }
 
 			}

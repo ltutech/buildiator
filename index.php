@@ -2,7 +2,8 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<link rel="stylesheet" href="css/main.css" type="text/css" media="screen" title="main StyleSheet" charset="utf-8" />
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="css/progress_bar.css">
 		<?php
 		function getViewName()
 		{

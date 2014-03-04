@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset='UTF-8'>
+	<title>Test Buildator</title>
+	<link rel='stylesheet' href='css/progress_bar.css'>
+	<link rel='stylesheet' href='css/main.css'>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+	<script>
+		$(function() {
+			$(".box > span").each(function() {
+				$(this)
+					.data("origWidth", $(this).width())
+					.width(0)
+					.animate({
+						width: $(this).data("origWidth")
+					}, 1200);
+			});
+		});
+	</script>
+</head>
+<body>
+
+	<div id="jobs">
+		<ul id="job_alerts">
+			<li class="box jobBroken building failed">
+		  	<div class="buildName">
+			  	Failed Building
+			  </div>
+		  	<span style="width: 10%"></span>
+		 	</li>
+			<li class="box jobBroken failed">
+		  	<div class="buildName">
+			  	Failed
+			  </div>
+		  	<span style="width: 0%"></span>
+		 	</li>
+		 	<li class="box jobBroken building unstable">
+		  	<div class="buildName">
+			  	Unstable building
+			  </div>
+		  	<span style="width: 50%"></span>
+		 	</li>
+			<li class="box jobBroken unstable">
+		  	<div class="buildName">
+			  	Unstable
+			  </div>
+		  	<span style="width: 0%"></span>
+		 	</li>
+			<li class="box jobBroken cancelled">
+		  	<div class="buildName">
+			  	Cancelled
+			  </div>
+		  	<span style="width: 90%"></span>
+		 	</li>
+		 	<li class="box jobBroken building cancelled">
+		  	<div class="buildName">
+					Cancelled
+			  </div>
+		  	<span style="width: 0%"></span>
+		 	</li>
+		</ul>
+		<ul id="running_jobs">
+			<li class="box jobSuccess successful building" data="Array">
+				<div class="buildName">
+					Success building 1
+				</div>
+				<span style="width: 15%"></span>
+			</li>
+			<li class="box jobSuccess successful building" data="Array">
+				<div class="buildName">
+					Success building 2
+				</div>
+				<span style="width: 25%"></span>
+			</li>
+			<li class="box jobSuccess successful building" data="Array">
+				<div class="buildName">
+					Success building 3
+				</div>
+				<span style="width: 50%"></span>
+			</li>
+			<li class="box jobSuccess successful building" data="Array">
+				<div class="buildName">
+					Success building 4
+				</div>
+				<span style="width: 80%"></span>
+			</li>
+		</ul>
+		<div id="overlayCounter"><ul>
+	    <li class="box counter successful">42
+	    </li>
+	    <li class="box counter unstable">2
+	    </li>
+	    <li class="box counter failed">2
+	    </li>
+	  </ul></div>
+	</div>
+
+</body>
+
+</html>

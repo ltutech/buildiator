@@ -17,19 +17,13 @@ $(document).ajaxError(function() {
 
 $(document).ready(function(){
   updateJobs();
-  var count = 0;
-  setInterval(function() {
-    count++;
-    var time = new Date().getTime();
-      op = (count%2 +0.25).toFixed(2);
-      if (op>1) {
-        op = 1;
-      }
-      $('.building').animate({
-        opacity: op,
-        easing: 'swing'
-      },1000)
-    },
-    1000
-  );
+  $(".box > span").each(function() {
+    $(this)
+      .data("origWidth", $(this).width())
+      .width(0)
+      .animate({
+        width: $(this).data("origWidth")
+      }, 1200);
+  });
+
 });
