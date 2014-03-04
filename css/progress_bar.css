@@ -76,33 +76,7 @@
   }
 }
 
-.successful > span {
-  background-color: #92ce00;
-  background-image: -moz-linear-gradient(top, #92ce00, #4e9700);
-  background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #92ce00),color-stop(1, #4e9700));
-  background-image: -webkit-linear-gradient(#92ce00, #4e9700);
-}
 
-.unstable > span {
-  background-color: #FA9F3C;
-  background-image: -moz-linear-gradient(top, #FA9F3C, #EB4200);
-  background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #FA9F3C),color-stop(1, #EB4200));
-  background-image: -webkit-linear-gradient(#FA9F3C, #EB4200);
-}
-
-.failed > span {
-  background-color: #FF3535;
-  background-image: -moz-linear-gradient(top, #FF3535, #660306);
-  background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #FF3535),color-stop(1, #660306));
-  background-image: -webkit-linear-gradient(#FF3535, #660306);
-}
-
-.cancelled > span {
-  background-color: #C9C9C9;
-  background-image: -moz-linear-gradient(top, #C9C9C9, #4B4B4B);
-  background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #C9C9C9),color-stop(1, #4B4B4B));
-  background-image: -webkit-linear-gradient(#C9C9C9, #4B4B4B);
-}
 
 .nostripes > span > span, .nostripes > span:after {
   -webkit-animation: none;

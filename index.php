@@ -4,6 +4,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link rel="stylesheet" href="css/main.css">
 		<link rel="stylesheet" href="css/progress_bar.css">
+		<link rel="stylesheet" href="css/build_color.css">
 		<?php
 		function getViewName()
 		{
