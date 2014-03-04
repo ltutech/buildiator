@@ -28,7 +28,7 @@ function displayJobsProblem($jobs)
     if ($lsStatus == 'unstable') {
       $lsUrl .= "/lastBuild/testReport";
     }
-    if ($job['status'][1] and ($job['status'][1] == 'building')) {
+    if (count($job['status']) >= 2 and ($job['status'][1] == 'building')) {
       $lsUrl = $job['url']."/lastBuild/console";
     }
 
@@ -45,7 +45,7 @@ function displayJobsProblem($jobs)
     $html .= "<li class = 'box jobBroken " . implode(" ",$job['status'] ) . "' onclick=\"window.open('$lsUrl')\">
               {$lsIcon}<div style=\"float:left\">{$job['name']}</div>{$winImage}<br style=\"clear:both\"/>
              </li>";
-  $html .= "<div id=\"building_jobs\">".displayJobsSuccess($jobsStableBuilding)."</div>
+    $html .= "<div id=\"building_jobs\">".displayJobsSuccess($jobsStableBuilding)."</div>
              <li class = \"lastSuccedBuild\">
               {$job['lastSuccessfulBuildTime']}{$claim}
              </li>";
@@ -106,8 +106,8 @@ function displayJobsSuccess($jobsStable)
     if (preg_match('/Win/', $job['name'], $matches, PREG_OFFSET_CAPTURE, 3)) {
       $winImage = '<img src="images/win-logo.png" height=100% style="float:right">';
     }
-    $html .="<li class = 'box jobSuccess success " . implode(" ",$job['status'] ) .
-            "' onclick=\"window.open('$lsUrl')\">{$job['name']}{$winImage}</li>";
+    $html .="<li class='box jobSuccess success " . implode(" ",$job['status'] ) .
+            " onclick=\"window.open('$lsUrl')\">{$job['name']}{$winImage}</li>";
   }
   return $html;
 }
@@ -135,7 +135,7 @@ function generateHtml($jobs)
         $jobsCancel[] = $job;
       }
       if ($lsStatus == 'successful') {
-        if ($job['status'][1] and ($job['status'][1] == 'building')) {
+        if (count($job['status']) >= 2 and ($job['status'][1] == 'building')) {
           $jobsStableBuilding[] = $job;
         }
         else {

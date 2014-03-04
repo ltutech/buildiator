@@ -25,8 +25,6 @@
 				}
 				setTimeout('updateJobs()', 5000);
 			});
-
-
 		}
 
 		$(document).ajaxError(function() {
